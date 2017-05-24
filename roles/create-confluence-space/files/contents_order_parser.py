@@ -2,7 +2,8 @@
 import json
 import sys
 
-raw_json = sys.argv[1]
+json_path = sys.argv[1]
+raw_json = open(json_path, "rb").read()
 data = json.loads(raw_json)
 
 order = []

@@ -20,4 +20,3 @@
     status_code: 200
     body_format: json
     body: "{{ lookup('file', '{{ jsontemp.stdout }}') }}"
-

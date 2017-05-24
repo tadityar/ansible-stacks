@@ -15,12 +15,22 @@
     return_content: yes
   register: contents_json
 
+- name: Create a tempfile for Content JSON
+  command: mktemp
+  register: uptemp
+  delegate_to: 127.0.0.1
+
+- name: Write content to file
+  copy:
+    content: "{{ contents_json.json.results | to_json }}"
+    dest: "{{ uptemp.stdout }}"
+
 - name: Initialise old to new id mapping
   set_fact:
     id_mapping: {}
 
 - name: Sort contents based on its dependencies
-  command: "./contents_order_parser.py '{{ contents_json.json.results | to_json }}'"
+  command: "./contents_order_parser.py '{{ uptemp.stdout }}'"
   args:
     chdir: "{{ role_path }}/files"
   register: processed_contents

@@ -3,4 +3,12 @@
   hosts: localhost
   roles:
   - create-confluence-space
-
+  vars_prompt:
+    - name: "source_confluence_site_username"
+      prompt: "Please enter the source confluence site username (Admin access required)"
+    - name: "source_confluence_site_password"
+      prompt: "Please enter the source confluence site password"
+    - name: "destination_confluence_site_username"
+      prompt: "Please enter the destination confluence site username (Admin access required)"
+    - name: "destination_confluence_site_password"
+      prompt: "Please enter the destination confluence site password"

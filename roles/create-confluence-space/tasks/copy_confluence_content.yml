@@ -14,6 +14,11 @@
   set_fact: 
     content_ancestors: "{{ content_json.json.ancestors | map(attribute='id') | list | map('extract', id_mapping) | list }}"
 
+- name: Pick only the last ancestor
+  set_fact:
+    content_ancestors: "{{ [-1] | map('extract', content_ancestors) | list }}"
+  when: content_ancestors|length > 0
+
 - name: Create a tempfile for Content JSON
   command: mktemp
   register: jsontemp
