@@ -1,0 +1,69 @@
+---
+- name: Get Content from Source
+  uri:
+    url: '{{ confluence_space_source_url }}/rest/api/content/{{ confluence_space_content.id }}?expand=body.storage,history,space,container.history,container.version,version,ancestors'
+    method: GET
+    user: '{{ source_confluence_site_username }}'
+    password: '{{ source_confluence_site_password }}'
+    force_basic_auth: yes
+    status_code: 200
+    return_content: yes
+  register: content_json
+
+- name: Map ancestor ids if any
+  set_fact: 
+    content_ancestors: "{{ content_json.json.ancestors | map(attribute='id') | list | map('extract', id_mapping) | list }}"
+
+- name: Generate Content JSON from Template
+  template:
+    src: content.j2
+    dest: '/content.json'
+  delegate_to: 127.0.0.1
+
+- name: Escape HTML Double Quotes
+  replace:
+    path: /content.json
+    regexp: '(?<==)(\")|(\")(?=[>\ ])'
+    replace: '\"'
+
+- name: Remove literal newlines
+  replace:
+    path: /content.json
+    regexp: '\n'
+    replace: ''
+
+- name: Unescape Single Quote
+  replace:
+    path: /content.json
+    regexp: "\\'"
+    replace: "'"
+
+# TODO: Determine if we really want to replace occurences of the source key with the new one
+- name: Replace Soure Space Key with Newly Created Space Key
+  replace:
+    path: /content.json
+    regexp: "{{ confluence_space_source_space_key }}"
+    replace: "{{ confluence_space_key }}"
+
+- name: Replace source url with the new one
+  replace:
+    path: /content.json
+    regexp: "{{ confluence_space_source_url }}"
+    replace: "{{ confluence_space_destination_url }}"
+
+- name: Create Content at Destination Site
+  uri:
+    url: '{{ confluence_space_destination_url }}/rest/api/content'
+    method: POST
+    user: '{{ destination_confluence_site_username }}'
+    password: '{{ destination_confluence_site_password }}'
+    force_basic_auth: yes
+    status_code: 200
+    body_format: json
+    body: "{{ lookup('file', '/content.json') }}"
+    return_content: yes
+  register: new_content_json
+
+- name: Append New id to old id mapping
+  set_fact:
+    id_mapping: "{{ id_mapping|combine({ content_json.json.id : { 'id' : new_content_json.json.id }}) }}"
