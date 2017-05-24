@@ -1,0 +1,23 @@
+---
+- name: Use a unique temporary file to store the Persistent Volume object
+  command: mktemp
+  register: jsontemp
+  delegate_to: 127.0.0.1 #Needed for lookup
+
+# TODO: use jsontemp instead of absolute path
+- name: Create post json
+  template:
+    src: space.j2
+    dest: '/space.json'
+  delegate_to: 127.0.0.1
+
+- name: Create Confluence Space
+  uri:
+    url: '{{ confluence_space_destination_url }}/rest/api/space'
+    method: POST
+    user: '{{ destination_confluence_site_username }}'
+    password: '{{ destination_confluence_site_password }}'
+    force_basic_auth: yes
+    status_code: 200
+    body_format: json
+    body: "{{ lookup('file', '/space.json') }}" # Use absolute path name for now, fails on localhost

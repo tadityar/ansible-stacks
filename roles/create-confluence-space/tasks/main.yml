@@ -30,3 +30,5 @@
   fail: msg="This role requires destination_confluence_site_username and destination_confluence_site_password to be set and non empty"
   when:
     - (destination_confluence_site_username == "") or (destination_confluence_site_password == "")
+
+- include: create_confluence_space.yml
