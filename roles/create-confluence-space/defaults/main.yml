@@ -1,0 +1,12 @@
+---
+confluence_space_destination_url: "https://rhlabs-test.atlassian.net/wiki"
+confluence_space_source_url: "https://rhlabs-test.atlassian.net/wiki"
+confluence_space_source_space_key: "PD"
+confluence_space_key: "NEWSP"
+confluence_space_name: "New Space"
+confluence_space_description: "A new confluence space"
+source_confluence_site_username: "admin"
+source_confluence_site_password: "admin"
+destination_confluence_site_username: "admin"
+destination_confluence_site_password: "admin"
+
