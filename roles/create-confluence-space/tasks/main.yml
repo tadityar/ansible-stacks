@@ -51,9 +51,4 @@
 - include: copy_confluence_attachments.yml
   with_dict: '{{ id_mapping }}'
   loop_control:
-<<<<<<< HEAD
     loop_var: confluence_content_ids
-
-=======
-    loop_var: confluence_content_ids
->>>>>>> 2f4cec6... Add attachments copier tasks
