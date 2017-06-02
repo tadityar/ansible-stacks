@@ -1,7 +1,0 @@
----
-confluence_space_destination_url: "https://confluence_cloud/wiki"
-confluence_space_source_url: "https://confluence_cloud/wiki"
-confluence_space_source_space_key: "OLDSP"
-confluence_space_key: "NEWSP"
-confluence_space_name: "New Space"
-confluence_space_description: "A new confluence space"
