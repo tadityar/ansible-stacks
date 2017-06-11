@@ -1,0 +1,17 @@
+---
+- include: create_atlassian_groups.yml
+  with_items: "{{ atlassian_groups }}"
+  loop_control:
+    loop_var: group
+  when: atlassian_groups|length > 0
+
+# - name: Create tempfile for aggregated users data
+#   tempfile:
+#     state: file
+#   register: tmpfile
+
+# - include: create_atlassian_users.yml
+#   with_items: "{{ atlassian_users }}"
+#   loop_control:
+#     loop_var: atlassian_user
+#   when: atlassian_users|length > 0
