@@ -14,6 +14,7 @@
     status_code: 200
     return_content: yes
   register: contents_json
+  no_log: true
 
 - name: Create a tempfile for Content JSON
   command: mktemp

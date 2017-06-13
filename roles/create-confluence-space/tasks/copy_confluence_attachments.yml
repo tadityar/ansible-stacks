@@ -9,6 +9,7 @@
     status_code: 200
     return_content: yes
   register: attachments_json
+  no_log: true
 
 - name: Create temp directory for downloaded attachments
   tempfile:

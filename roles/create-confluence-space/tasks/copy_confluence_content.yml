@@ -9,6 +9,7 @@
     status_code: 200
     return_content: yes
   register: content_json
+  no_log: true
 
 - name: Map ancestor ids if any
   set_fact: 
@@ -60,6 +61,7 @@
     body: "{{ lookup('file', '{{ jsontemp.stdout }}') }}"
     return_content: yes
   register: new_content_json
+  no_log: true
 
 - name: Append New id to old id mapping
   set_fact:
