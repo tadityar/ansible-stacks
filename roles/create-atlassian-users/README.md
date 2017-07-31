@@ -29,8 +29,8 @@ atlassian_groups:
 Here are the description of each variables:
 
 - `atlassian_url`: the url of the site we want to create users in
-- `atlassian_url`: username of an admin of that site
-- `atlassian_url`: password of the user that has admin priviledge
+- `atlassian_username`: username of an admin of that site
+- `atlassian_password`: password of the user that has admin priviledge
 - `atlassian_users`: a list of dictionaries with user data
 - `atlassian_groups`: a list of groups to be created (can be an empty list)
 
